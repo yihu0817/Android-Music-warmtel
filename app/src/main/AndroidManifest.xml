@@ -8,7 +8,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".music.TwoMusicListActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -16,6 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".MusicActivity"/>
+        <activity android:name=".MusicListActivity"/>
+        <activity android:name=".music.TwoMusicListActivity"/>
         <activity android:name=".music.TwoMusicActivity"/>
         <activity android:name=".MusicCursorListActivity"/>
         <service android:name=".service.MusicService"/>
