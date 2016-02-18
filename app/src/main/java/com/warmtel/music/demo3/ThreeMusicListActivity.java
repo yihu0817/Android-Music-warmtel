@@ -1,6 +1,5 @@
-package com.warmtel.music.music;
+package com.warmtel.music.demo3;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -18,43 +17,83 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.warmtel.music.R;
+import com.warmtel.music.model.Music;
+import com.warmtel.music.util.Constances;
 
 import java.io.File;
 import java.util.ArrayList;
 
-public class TwoMusicListActivity extends Activity implements OnItemClickListener {
+public class ThreeMusicListActivity extends BaseActivity implements OnItemClickListener, View.OnClickListener {
     private ListView mListView;
-    private Handler mHandler = new Handler();
-    private MusicListAdapter mAdapter;
-    private ArrayList<Music> mMediaLists = new ArrayList<>();
+    private ImageView mMusicIcon;
+    private TextView mMusicTitle;
+    private TextView mMusicArtist;
 
+    private ImageView mPreImageView;
+    private ImageView mPlayImageView;
+    private ImageView mNextImageView;
+
+    private SeekBar mSeekBar;
+    private MusicListAdapter mAdapter;
+    private Handler mHandler = new Handler();
+    private boolean mThreadFlag = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_music_three_list_layout);
+        setupViews();
+        binderService();
+        asyncQueryMedia();
+        /** 负责更新播放进度和时间 */
+        new Thread(new PlayerThread()).start();
+    }
 
-        setContentView(R.layout.activity_music_list_layout);
+    private void binderService() {
+        Intent intent = new Intent(this, ThreeMusicService.class);
+        startService(intent);
+        /** 绑定服务，获取交互实例 */
+        bindService(intent, mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    private void setupViews() {
         mListView = (ListView) findViewById(R.id.music_list_view);
-        mListView.setOnItemClickListener(this);
+        mMusicIcon = (ImageView) findViewById(R.id.iv_play_icon);
+        mMusicTitle = (TextView) findViewById(R.id.tv_play_title);
+        mMusicArtist = (TextView) findViewById(R.id.tv_play_artist);
+
+        mPreImageView = (ImageView) findViewById(R.id.iv_pre);
+        mPlayImageView = (ImageView) findViewById(R.id.iv_play);
+        mNextImageView = (ImageView) findViewById(R.id.iv_next);
+
+        mSeekBar = (SeekBar) findViewById(R.id.play_progress);
 
         mAdapter = new MusicListAdapter(this);
         mListView.setAdapter(mAdapter);
+        mListView.setOnItemClickListener(this);
 
-        asyncQueryMedia();
+        mMusicIcon.setOnClickListener(this);
+        mPreImageView.setOnClickListener(this);
+        mPlayImageView.setOnClickListener(this);
+        mNextImageView.setOnClickListener(this);
     }
 
     public void asyncQueryMedia() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                mMediaLists.clear();
+                Constances.mMediaLists.clear();
                 queryMusic(Environment.getExternalStorageDirectory() + File.separator);
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mAdapter.setListData(mMediaLists);
+                        mAdapter.setListData(Constances.mMediaLists);
+                        Constances.mCurrentPostion = 0;
+                        mIMusicService.iInitMusic();
+                        changeBottomMusicView();
                     }
                 });
             }
@@ -95,7 +134,7 @@ public class TwoMusicListActivity extends Activity implements OnItemClickListene
             music.setLength(cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.DURATION)));
             music.setImage(getAlbumImage(cursor.getInt(cursor.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))));
 
-            mMediaLists.add(music);
+            Constances.mMediaLists.add(music);
         }
 
         cursor.close();
@@ -109,7 +148,7 @@ public class TwoMusicListActivity extends Activity implements OnItemClickListene
      * @return
      */
     private boolean isRepeat(String title, String artist) {
-        for (Music music : mMediaLists) {
+        for (Music music : Constances.mMediaLists) {
             if (title.equals(music.getTitle()) && artist.equals(music.getArtist())) {
                 return true;
             }
@@ -143,6 +182,32 @@ public class TwoMusicListActivity extends Activity implements OnItemClickListene
         }
 
         return null == result ? null : result;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.iv_play_icon:
+                startActivity(new Intent(this, ThreeMusicActivity.class));
+                break;
+            case R.id.iv_play:
+                if (mIMusicService.iPlayerMusic()) {
+                    mPlayImageView.setImageResource(android.R.drawable.ic_media_pause);
+                } else {
+                    mPlayImageView.setImageResource(android.R.drawable.ic_media_play);
+                }
+                break;
+            case R.id.iv_next:
+                mIMusicService.iPlayNext(); // 下一曲
+                mPlayImageView.setImageResource(android.R.drawable.ic_media_pause);
+                changeBottomMusicView();
+                break;
+            case R.id.iv_pre:
+                mIMusicService.iPlayPre(); // 上一曲
+                mPlayImageView.setImageResource(android.R.drawable.ic_media_pause);
+                changeBottomMusicView();
+                break;
+        }
     }
 
     public class MusicListAdapter extends BaseAdapter {
@@ -222,11 +287,55 @@ public class TwoMusicListActivity extends Activity implements OnItemClickListene
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         MusicListAdapter adapter = (MusicListAdapter) parent.getAdapter();
         adapter.setPlayingPosition(position);
+        Constances.mCurrentPostion = position;
+        mPlayImageView.setImageResource(android.R.drawable.ic_media_pause);
+        mIMusicService.iInitMusic();
+        mIMusicService.iPlayerMusic();
+        changeBottomMusicView();
+    }
 
-        Intent intent = new Intent(this,TwoMusicActivity.class);
-        intent.putParcelableArrayListExtra("MUSIC_LIST", mMediaLists);
-        intent.putExtra("CURRENT_POSTION", position);
+    /**
+     * 设置当前显示音乐信息
+     */
+    public void changeBottomMusicView(){
+        Music music = Constances.mMediaLists.get(Constances.mCurrentPostion);
+        Bitmap icon = BitmapFactory.decodeFile(music.getImage());
+        mMusicIcon.setImageBitmap(icon == null ? BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher) : icon);
+        mMusicTitle.setText(music.getTitle());
+        mMusicArtist.setText(music.getArtist());
+    }
 
-        startActivity(intent);
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mServiceConnection != null) {
+            unbindService(mServiceConnection);
+        }
+    }
+
+    public class PlayerThread implements Runnable {
+        @Override
+        public void run() {
+            while (mThreadFlag) {
+                if (mIMusicService != null && mIMusicService.isPlayering()) {
+                    mHandler.post(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            int currentTime = mIMusicService.iPlayCurrentTime();
+                            int totalTime = mIMusicService.iPlayTotalTime();
+                            mSeekBar.setMax(totalTime);
+                            mSeekBar.setProgress(currentTime);
+                        }
+                    });
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
     }
 }

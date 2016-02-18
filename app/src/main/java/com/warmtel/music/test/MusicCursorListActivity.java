@@ -1,4 +1,4 @@
-package com.warmtel.music;
+package com.warmtel.music.test;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.warmtel.music.R;
 import com.warmtel.music.util.Logs;
 
 import java.io.File;
@@ -91,7 +92,7 @@ public class MusicCursorListActivity extends Activity {
 
 		// scanMediaByRecerver(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)+"/name.mp3");
 
-		com.warmtel.music.MediaScanner mediaScaner = new com.warmtel.music.MediaScanner(this);
+		MediaScanner mediaScaner = new MediaScanner(this);
 		String[] paths = new String[]{Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC)+ "/jinsha.mp3"};
 		mediaScaner.scanFile(paths, "audio/mp3");
 	}

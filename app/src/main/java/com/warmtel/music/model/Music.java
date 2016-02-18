@@ -1,4 +1,4 @@
-package com.warmtel.music.music;
+package com.warmtel.music.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;

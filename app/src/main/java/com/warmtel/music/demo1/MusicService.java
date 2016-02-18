@@ -1,4 +1,4 @@
-package com.warmtel.music.service;
+package com.warmtel.music.demo1;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -14,8 +14,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.widget.RemoteViews;
 
-import com.warmtel.music.MusicActivity;
-import com.warmtel.music.MusicBean;
+import com.warmtel.music.model.MusicBean;
 import com.warmtel.music.R;
 import com.warmtel.music.util.Logs;
 
@@ -210,9 +209,7 @@ public class MusicService extends Service {
 			return true;
 		}
 	}
-	/**
-	 * 定义广播接收者
-	 */
+
 	public BroadcastReceiver playerReceiver = new BroadcastReceiver(){
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -229,7 +226,7 @@ public class MusicService extends Service {
 		}
 		
 	};
-	private boolean playerThreadFlag = true; /**更新线程开关*/
+	private boolean playerThreadFlag = true;
 	public class PlayerServiceThread implements Runnable{
 		@Override
 		public void run() {
@@ -243,7 +240,7 @@ public class MusicService extends Service {
 						intent.putExtra("TOTALE_TIME", totalTime);
 						sendBroadcast(intent);
 					}
-					/**每秒更新一次*/
+
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {

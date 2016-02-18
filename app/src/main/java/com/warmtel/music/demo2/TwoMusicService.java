@@ -1,4 +1,4 @@
-package com.warmtel.music.service;
+package com.warmtel.music.demo2;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Binder;
 import android.os.IBinder;
 
-import com.warmtel.music.music.Music;
+import com.warmtel.music.model.Music;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -117,11 +117,11 @@ public class TwoMusicService extends Service {
 	public int onStartCommand(Intent intent, int flags, int startId) {
 		musicPathLists = intent.getParcelableArrayListExtra("MUSIC_LIST");
 		currentPostion = intent.getIntExtra("CURRENT_POSTION", 0);
-		
+
 		initMusic();
-		
+
 		playerMusic();
-		
+
 		return super.onStartCommand(intent, flags, startId);
 	}
 

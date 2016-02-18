@@ -1,4 +1,4 @@
-package com.warmtel.music;
+package com.warmtel.music.test;
 
 import android.content.Context;
 import android.media.MediaScannerConnection;

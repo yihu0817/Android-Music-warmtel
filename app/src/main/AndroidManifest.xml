@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.warmtel.music">
 
@@ -9,19 +10,25 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MusicActivity"/>
-        <activity android:name=".MusicListActivity"/>
-        <activity android:name=".music.TwoMusicListActivity"/>
-        <activity android:name=".music.TwoMusicActivity"/>
-        <activity android:name=".MusicCursorListActivity"/>
-        <service android:name=".service.MusicService"/>
-        <service android:name=".service.TwoMusicService"/>
+        <activity android:name=".demo1.MusicActivity" />
+        <activity android:name=".demo1.MusicListActivity" />
+        <activity android:name=".demo2.TwoMusicListActivity" />
+        <activity android:name=".demo3.ThreeMusicListActivity" />
+        <activity android:name=".demo2.TwoMusicActivity" />
+        <activity android:name=".demo3.ThreeMusicActivity" />
+        <activity android:name=".test.MusicCursorListActivity" />
+
+        <service android:name=".demo1.MusicService" />
+        <service android:name=".demo2.TwoMusicService" />
+        <service android:name=".demo3.ThreeMusicService" />
+
     </application>
 
 </manifest>

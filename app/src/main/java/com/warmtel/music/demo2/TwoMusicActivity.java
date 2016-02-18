@@ -1,4 +1,4 @@
-package com.warmtel.music.music;
+package com.warmtel.music.demo2;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -20,7 +20,7 @@ import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
 
 import com.warmtel.music.R;
-import com.warmtel.music.service.TwoMusicService;
+import com.warmtel.music.model.Music;
 import com.warmtel.music.view.CDView;
 
 import java.text.SimpleDateFormat;

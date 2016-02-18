@@ -1,4 +1,4 @@
-package com.warmtel.music;
+package com.warmtel.music.demo1;
 
 import android.app.Activity;
 import android.content.Context;
@@ -14,6 +14,9 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.warmtel.music.model.MusicBean;
+import com.warmtel.music.R;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/MediaScanner.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/MusicActivity.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/MusicBean.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/MusicCursorListActivity.java" charset="GBK" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/MusicListActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/demo1/MusicActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/demo1/MusicListActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/demo1/MusicService.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/demo2/TwoMusicService.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/demo3/ThreeMusicService.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/lyric" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/model/Music.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/model/MusicBean.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/service" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/test/MediaScanner.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/test/MusicCursorListActivity.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/util" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/warmtel/music/util/Constances.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/play_activity_progressbar.9.png" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-hdpi/play_activity_progressbar_green.9.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-mdpi/cd_center.png" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xhdpi" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable-xxhdpi" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/play_progressbar_green.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/music_list_item.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml" charset="GBK" />

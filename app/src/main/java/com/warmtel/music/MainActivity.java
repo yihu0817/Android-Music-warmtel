@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-import com.warmtel.music.music.TwoMusicListActivity;
+import com.warmtel.music.demo1.MusicListActivity;
+import com.warmtel.music.demo3.ThreeMusicListActivity;
+import com.warmtel.music.demo2.TwoMusicListActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +30,6 @@ public class MainActivity extends ListActivity {
 				new int[]{android.R.id.text1}));
 
 		setSelection(data.size()-1);
-
 	}
 
 	public List<Map<String, Object>> getData() {
@@ -36,6 +37,7 @@ public class MainActivity extends ListActivity {
 
 		addItem(data, "播放器递归文件", MusicListActivity.class);
 		addItem(data, "媒体库播放资源", TwoMusicListActivity.class);
+		addItem(data, "列表播放音乐", ThreeMusicListActivity.class);
 
 		return data;
 	}
@@ -56,8 +58,7 @@ public class MainActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		@SuppressWarnings("unchecked")
-		Map<String, Object> map = (Map<String, Object>) l
-				.getItemAtPosition(position);
+		Map<String, Object> map = (Map<String, Object>) l.getItemAtPosition(position);
 		Intent intent = (Intent) map.get("intent");
 		startActivity(intent);
 	}
